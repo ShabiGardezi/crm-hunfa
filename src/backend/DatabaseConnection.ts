@@ -5,7 +5,13 @@ const connectDb = (handler: any) => async (req: any, res: any) => {
     return handler(req, res)
   }
 
-  await mongoose.connect('mongodb+srv://crmrankbpo:8PQnqzqTnGeXnSAX@crmrankorbit.gq2hhuc.mongodb.net/crm')
+  const MONGODB_URI = process.env.MONGODB_URI
+
+  if (!MONGODB_URI) {
+    throw new Error('Please define the MONGODB_URI in the .env file')
+  }
+
+  await mongoose.connect(MONGODB_URI)
 
   return handler(req, res)
 }
